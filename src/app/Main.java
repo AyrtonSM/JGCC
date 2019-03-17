@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import classes.AnaliseLexica;
 import classes.Token;
+import utils.OperadoresRelacionaisUtils;
 import utils.PalavraReservadaUtils;
 import utils.SimbolosLexicos;
 import utils.TabelaSimbolos;
@@ -17,6 +18,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TabelaSimbolos.createSymbleTable();
+		OperadoresRelacionaisUtils.createHashMapping();
 		PalavraReservadaUtils.createHashMapping();
 		AnaliseLexica analiseLexica = new AnaliseLexica();
 		
@@ -46,10 +48,18 @@ public class Main {
         }
 		
         System.out.println(TabelaSimbolos.symbolTable.keySet());
+        
+        
+        for(String key : TabelaSimbolos.symbolTable.keySet()) {
+        	 System.out.println(" ° " + key);
+        	 for(Token t : TabelaSimbolos.symbolTable.get(key)) {
+     				System.out.println(t.getKey() + " --> " + t.getValue());
+     		}
+        }
 		
 		for(ArrayList<Token> t : TabelaSimbolos.symbolTable.values()) {
 			for (Token tok : t) {
-				System.out.println(tok.getKey() + " | " + tok.getValue());
+				System.out.println(t+ " | " + tok.getValue());
 			}
 		}
 		

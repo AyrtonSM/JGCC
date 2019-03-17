@@ -18,6 +18,9 @@ public class PalavraReservadaUtils {
 	private static final String SCANF = "scanf";
 	private static final String STRUCT = "struct";
 	private static final String MAIN = "main";
+	private static final String INCLUDE = "include";
+	private static final String STDIO = "stdio.h";
+	private static final String STDLIB = "stdlib.h";
 	public static HashMap<String , String> reservedWords = new HashMap<String, String>();
 	
 	public static void createHashMapping() {
@@ -36,6 +39,9 @@ public class PalavraReservadaUtils {
 			reservedWords.put(FLOAT,FLOAT);
 			reservedWords.put(LONG,LONG);
 			reservedWords.put(CHAR,CHAR);
+			reservedWords.put(INCLUDE,INCLUDE);
+			reservedWords.put(STDIO,STDIO);
+			reservedWords.put(STDLIB,STDLIB);
 	}
 	
 }
