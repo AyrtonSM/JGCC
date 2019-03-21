@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import classes.AnaliseLexica;
 import classes.Token;
+import utils.Delimitadores;
+import utils.OperadoresLogicos;
 import utils.OperadoresRelacionaisUtils;
 import utils.PalavraReservadaUtils;
 import utils.SimbolosLexicos;
@@ -20,11 +22,13 @@ public class Main {
 		TabelaSimbolos.createSymbleTable();
 		OperadoresRelacionaisUtils.createHashMapping();
 		PalavraReservadaUtils.createHashMapping();
+		Delimitadores.createHashMapping();
+		OperadoresLogicos.createHashMapping();
 		AnaliseLexica analiseLexica = new AnaliseLexica();
 		
 		
 		// The name of the file to open.
-        String nomeDoArquivo = "/home/ayrton/Documentos/count.c";
+        String nomeDoArquivo = "leitura.c";
 
         // This will reference one line at a time
         String linha = null;
@@ -56,14 +60,5 @@ public class Main {
      				System.out.println(t.getKey() + " --> " + t.getValue());
      		}
         }
-		
-		for(ArrayList<Token> t : TabelaSimbolos.symbolTable.values()) {
-			for (Token tok : t) {
-				System.out.println(t+ " | " + tok.getValue());
-			}
-		}
-		
-//		System.out.println();
 	}
-
 }
