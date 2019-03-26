@@ -1,6 +1,9 @@
 package classes;
 
+
 import utils.AritmeticosUtils;
+import utils.Delimitadores;
+import utils.OperadoresLogicos;
 import utils.OperadoresRelacionaisUtils;
 import utils.PalavraReservadaUtils;
 import utils.SimbolosLexicos;
@@ -12,6 +15,7 @@ public class AnaliseLexica {
 		String token = "";
 		char anterior = 0;
 		for (Character a : text.toCharArray()) {
+		
 			if(Character.isLetter(a) || a.equals('.')) {
 				
 				if(anterior == '>' || anterior == '<' || anterior == '=' || anterior == '!') {
@@ -20,7 +24,7 @@ public class AnaliseLexica {
 				}
 					
 				token += String.valueOf(a);
-				System.out.println(token);
+				
 				if(PalavraReservadaUtils.reservedWords.containsKey(token)) {
 					if(TabelaSimbolos.symbolTable.get(SimbolosLexicos.PALAVRAS_RESERVADAS)!=null) {
 						Token t = new Token();
@@ -79,6 +83,7 @@ public class AnaliseLexica {
 					}
 					
 				}
+<<<<<<< HEAD
 			} // END ELSE IF OP_RELACIONAL
 			else if(a.equals('+') || a.equals('-') || a.equals('*') || a.equals('/')) {
 				
@@ -115,8 +120,90 @@ public class AnaliseLexica {
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.OP_ARITMETICO).add(t);
 					}
 				}
-			}
 			
+			} else if(a.equals(';') || a.equals('.') || a.equals(':') || a.equals('(') || a.equals(')') || a.equals('{') || a.equals('}') || a.equals('\'') || a.equals('\"') ){
+				
+				token = String.valueOf(a);
+				
+				String label = "";
+				switch(token) {
+					case (Delimitadores.PONTO_VIRGULA):
+						label = Delimitadores.PONTO_VIRGULA_DESCRICAO;
+						break;
+					case (Delimitadores.PONTO):
+						label = Delimitadores.PONTO_DESCRICAO;
+						break;
+					case (Delimitadores.DOIS_PONTOS):
+						label = Delimitadores.DOIS_PONTO_DESCRICAO;
+						break;
+					case (Delimitadores.PARENTESE_ESQ):
+						label = Delimitadores.PARENTESE_ESQ_DESCRICAO;
+						break;
+					case (Delimitadores.PARENTESE_DIR):
+						label = Delimitadores.PARENTESE_DIR_DESCRICAO;
+						break;
+					case (Delimitadores.CHAVE_ESQ):
+						label = Delimitadores.CHAVE_ESQ_DESCRICAO;
+						break;
+					case (Delimitadores.CHAVE_DIR):
+						label = Delimitadores.CHAVE_DIR_DESCRICAO;
+						break;
+					case (Delimitadores.ASPA_DUPLA):
+						label = Delimitadores.ASPA_DUPLA_DESCRICAO;
+						break;
+					case (Delimitadores.ASPA_SIMPLES):
+						label = Delimitadores.ASPA_SIMPLES_DESCRICAO;
+						
+				}
+			
+				
+				if(Delimitadores.delimitadores.containsKey(label)) {
+					
+					anterior = a.charValue();
+					
+					if(TabelaSimbolos.symbolTable.get(SimbolosLexicos.SIMB_ESPECIAIS) != null ) {
+						Token t = new Token();
+						t.setKey(label);
+						t.setValue(Delimitadores.delimitadores.get(label));
+						
+						TabelaSimbolos.symbolTable.get(SimbolosLexicos.SIMB_ESPECIAIS).add(t);
+					}
+					
+				}
+			} else if(a.equals('&') || a.equals('|')){
+				
+				if(anterior == '&' || anterior == '|' ) {
+					
+					token = String.valueOf(anterior) + a;	
+				}else {
+					token = String.valueOf(a);
+					anterior = a.charValue();
+				}
+				
+				String label = "";
+				switch(token) {
+					case (OperadoresLogicos.AND):
+						label = OperadoresLogicos.AND_DESCRICAO;
+						break;
+					case (OperadoresLogicos.OR):
+						label = OperadoresLogicos.OR_DESCRICAO;
+				}
+			
+				
+				if(OperadoresLogicos.operadoresLogicos.containsKey(label)) {
+					
+					anterior = a.charValue();
+					
+					if(TabelaSimbolos.symbolTable.get(SimbolosLexicos.OP_LOGICO) != null ) {
+						Token t = new Token();
+						t.setKey(label);
+						t.setValue(OperadoresLogicos.operadoresLogicos.get(label));
+						
+						TabelaSimbolos.symbolTable.get(SimbolosLexicos.OP_LOGICO).add(t);
+					}
+				}
+			} //END OP LOGICOS
+
 		}
 	}
 }
