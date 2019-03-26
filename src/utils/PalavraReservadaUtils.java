@@ -21,6 +21,7 @@ public class PalavraReservadaUtils {
 	private static final String INCLUDE = "include";
 	private static final String STDIO = "stdio.h";
 	private static final String STDLIB = "stdlib.h";
+	private static final String RETURN = "return";
 	public static HashMap<String , String> reservedWords = new HashMap<String, String>();
 	
 	public static void createHashMapping() {
@@ -42,6 +43,7 @@ public class PalavraReservadaUtils {
 			reservedWords.put(INCLUDE,INCLUDE);
 			reservedWords.put(STDIO,STDIO);
 			reservedWords.put(STDLIB,STDLIB);
+			reservedWords.put(RETURN, RETURN);
 	}
 	
 }

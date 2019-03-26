@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class SimbolosLexicos {
 	public  static final String ID = "id";
 	public  static final String LITERAL = "literal";
+	public  static final String NUMERAL = "numeral";
 	public  static final String OP_ARITMETICO = "op_aritmetico";
 	public  static final String OP_RELACIONAL = "op_relacional";
 	public  static final String OP_LOGICO = "op_logico";
