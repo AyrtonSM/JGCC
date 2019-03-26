@@ -2,6 +2,9 @@ package classes;
 
 
 import utils.AritmeticosUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import utils.Delimitadores;
 import utils.OperadoresLogicos;
 import utils.OperadoresRelacionaisUtils;
@@ -12,6 +15,9 @@ import utils.TabelaSimbolos;
 public class AnaliseLexica {
 	
 	public void analisys(String text) {
+		ArrayList<String> literal = new ArrayList<>();
+		boolean aspa_aberta = false;
+		
 		String token = "";
 		char anterior = 0;
 		for (Character a : text.toCharArray()) {
@@ -81,9 +87,9 @@ public class AnaliseLexica {
 						
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.OP_RELACIONAL).add(t);
 					}
+					token = "";
 					
 				}
-<<<<<<< HEAD
 			} // END ELSE IF OP_RELACIONAL
 			else if(a.equals('+') || a.equals('-') || a.equals('*') || a.equals('/')) {
 				
@@ -122,6 +128,7 @@ public class AnaliseLexica {
 				}
 			
 			} else if(a.equals(';') || a.equals('.') || a.equals(':') || a.equals('(') || a.equals(')') || a.equals('{') || a.equals('}') || a.equals('\'') || a.equals('\"') ){
+
 				
 				token = String.valueOf(a);
 				
@@ -168,9 +175,11 @@ public class AnaliseLexica {
 						
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.SIMB_ESPECIAIS).add(t);
 					}
+					token = "";
 					
 				}
-			} else if(a.equals('&') || a.equals('|')){
+			} 
+			else if(a.equals('&') || a.equals('|')){
 				
 				if(anterior == '&' || anterior == '|' ) {
 					
@@ -201,9 +210,79 @@ public class AnaliseLexica {
 						
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.OP_LOGICO).add(t);
 					}
+					token = "";
 				}
 			} //END OP LOGICOS
 
+
+//			else if(anterior == '\"' || aspa_aberta){
+//				
+//				aspa_aberta = true;
+//				
+//				if(!a.equals('\"')) {
+//					token += String.valueOf(a);
+//					anterior = a.charValue();
+//				}else {
+//					
+//					anterior = a.charValue();
+//					
+//					if(TabelaSimbolos.symbolTable.get(SimbolosLexicos.LITERAL) != null ) {
+//						Token t = new Token();
+//						t.setKey(token);
+//						t.setValue(token);
+//						
+//						TabelaSimbolos.symbolTable.get(SimbolosLexicos.LITERAL).add(t);
+//					}
+//					token = "";
+//					aspa_aberta = false;
+//				}
+//				
+//			}
+			else if(Character.isDigit(a) || a.equals('.') || Character.isDigit(anterior)) { //NUMERAIS
+				
+				if(!a.equals(' ') || a.equals('f')) {
+					token += String.valueOf(a);
+					anterior = a.charValue();
+				}else {
+					
+					anterior = a.charValue(); 
+					
+					if(TabelaSimbolos.symbolTable.get(SimbolosLexicos.NUMERAL)!=null) {
+						Token t = new Token();
+						t.setKey(token);
+						t.setValue(token);
+						TabelaSimbolos.symbolTable.get(SimbolosLexicos.NUMERAL).add(t);
+					}
+					token = "";
+				}			
+			}
+			
+			
+			//NUMERAIS
+//			else if(Character.isLetter(a) || a.equals('_')) {// ID
+//				
+//				if(!a.equals(' ')) {
+//					
+//					token += String.valueOf(a);
+//					anterior = a.charValue();
+//				}else {
+//					anterior = a.charValue(); 
+//					
+//					if(Character.isDigit(token.charAt(0))) {
+//						System.out.println("Erro Lexixo!!!!");
+//						
+//						System.exit(1);
+//						
+//					}else if(TabelaSimbolos.symbolTable.get(SimbolosLexicos.ID)!=null) {
+//						Token t = new Token();
+//						t.setKey(token);
+//						t.setValue(token);
+//						TabelaSimbolos.symbolTable.get(SimbolosLexicos.ID).add(t);
+//					}
+//					token = "";
+//				}			
+//				
+//			}//ID
 		}
 	}
 }

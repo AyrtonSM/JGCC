@@ -14,6 +14,7 @@ public class TabelaSimbolos {
 		
 		symbolTable.put(SimbolosLexicos.ID, new ArrayList<Token>());
 		symbolTable.put(SimbolosLexicos.LITERAL, new ArrayList<Token>());
+		symbolTable.put(SimbolosLexicos.NUMERAL, new ArrayList<Token>());
 		symbolTable.put(SimbolosLexicos.OP_ARITMETICO, new ArrayList<Token>());
 		symbolTable.put(SimbolosLexicos.OP_LOGICO, new ArrayList<Token>());
 		symbolTable.put(SimbolosLexicos.OP_RELACIONAL, new ArrayList<Token>());
