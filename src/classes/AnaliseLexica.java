@@ -1,5 +1,6 @@
 package classes;
 
+import utils.AritmeticosUtils;
 import utils.OperadoresRelacionaisUtils;
 import utils.PalavraReservadaUtils;
 import utils.SimbolosLexicos;
@@ -79,6 +80,43 @@ public class AnaliseLexica {
 					
 				}
 			} // END ELSE IF OP_RELACIONAL
+			else if(a.equals('+') || a.equals('-') || a.equals('*') || a.equals('/')) {
+				
+ 				token = String.valueOf(a);
+				
+				String label = "";
+				switch (String.valueOf(a)) {
+				
+					case (AritmeticosUtils.SUM):
+						label = AritmeticosUtils.SUM_DESCRIPTION;
+						break;
+					case (AritmeticosUtils.SUB):
+						label = AritmeticosUtils.SUB_DESCRIPTION;
+						break;
+					case (AritmeticosUtils.MULT):
+						label = AritmeticosUtils.MULT_DESCRIPTION;
+						break;
+					case (AritmeticosUtils.DIV):
+						label = AritmeticosUtils.DIV_DESCRIPTION;
+						break;
+						
+					default:
+						break;
+				}
+				
+				
+				if(AritmeticosUtils.aritmeticosMapping.containsKey(label)) {
+					
+					if(TabelaSimbolos.symbolTable.get(SimbolosLexicos.OP_ARITMETICO) != null ) {
+						Token t = new Token();
+						t.setKey(label);
+						t.setValue(AritmeticosUtils.aritmeticosMapping.get(label));
+						
+						TabelaSimbolos.symbolTable.get(SimbolosLexicos.OP_ARITMETICO).add(t);
+					}
+				}
+			}
+			
 		}
 	}
 }
