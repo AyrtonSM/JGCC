@@ -19,17 +19,17 @@ import utils.TabelaSimbolos;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		TabelaSimbolos.createSymbleTable();
-		
 		OperadoresRelacionaisUtils.createHashMapping();
 		PalavraReservadaUtils.createHashMapping();
-
 		AritmeticosUtils.createHashMapping();
-	
 		Delimitadores.createHashMapping();
 		OperadoresLogicos.createHashMapping();
+		
+		
+		
 		AnaliseLexica analiseLexica = new AnaliseLexica();
 		
 		
@@ -43,9 +43,10 @@ public class Main {
             FileReader fileReader = new FileReader(nomeDoArquivo);
 
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-
+            int lineCount = 1;
             while((linha = bufferedReader.readLine()) != null) {
-                analiseLexica.analisys(linha);
+                analiseLexica.analisys(linha,lineCount);
+                lineCount++;
             }   
 
             bufferedReader.close();         
@@ -57,14 +58,17 @@ public class Main {
            e.printStackTrace();
         }
 		
-        System.out.println(TabelaSimbolos.symbolTable.keySet());
-        
-        
-        for(String key : TabelaSimbolos.symbolTable.keySet()) {
-        	 System.out.println(" ° " + key);
-        	 for(Token t : TabelaSimbolos.symbolTable.get(key)) {
-     				System.out.println("		"+ t.getKey() + " --> " + t.getValue());
-     		}
+//        System.out.println(TabelaSimbolos.symbolTable.keySet());
+        for(Token t : TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL)) {
+        	System.out.println("(TIPO) : " + t.getTipo() + "	|	(VALOR): " + t.getKey() + "	|	(LEXEMA): " + t.getValue() + "	|	(LINHAS): "+ t.getLinha());
+        	System.out.println("");
         }
+        
+//        for(String key : TabelaSimbolos.symbolTable.keySet()) {
+//        	
+//        	 for(Token t : TabelaSimbolos.symbolTable.get(key)) {
+//     				System.out.println(key + "		"+ t.getKey() + " --> " + t.getValue() + " / linha : "+t.getLinha());
+//     		}
+//        }
 	}
 }

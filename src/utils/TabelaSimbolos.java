@@ -20,7 +20,9 @@ public class TabelaSimbolos {
 		symbolTable.put(SimbolosLexicos.OP_RELACIONAL, new ArrayList<Token>());
 		symbolTable.put(SimbolosLexicos.SIMB_ESPECIAIS, new ArrayList<Token>());
 		symbolTable.put(SimbolosLexicos.PALAVRAS_RESERVADAS, new ArrayList<Token>());
-	
+		symbolTable.put(SimbolosLexicos.TYPE, new ArrayList<Token>());
+		symbolTable.put(SimbolosLexicos.TABELA_GERAL, new ArrayList<Token>());
+		symbolTable.put(SimbolosLexicos.ERRO, new ArrayList<Token>());
 	}
 	
 }

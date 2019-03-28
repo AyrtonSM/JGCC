@@ -1,13 +1,18 @@
 #include<math.h>
 #include<stdio.h>
 
-int main (int argc, char const *argv[] )
+int main (int argc, char const *argv[])
 {
-
-	int hoje_amanha = 1254.65f ;
-
-	printf ( " emanoel " ) ;
-
+	
+	/* hello */
+	float hoje_amanha = 1254.65f ;
+	int 1nome = "ayrton";
+	char b;
+	printf ( " emanoel " ) ;	
+	if(b == 2 && nome!="manel"){
+		printf("hellooow");	
+	}
+	
 	for (int i = 0 ; i <= count ; ++ i)
 	{
 		printf("olá");

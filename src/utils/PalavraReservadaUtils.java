@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class PalavraReservadaUtils {
 	
 	private static final String FOR = "for";
+	private static final String CONST = "const";
 	private static final String INT = "int";
 	private static final String DOUBLE = "double";
 	private static final String FLOAT = "float";
@@ -23,6 +24,7 @@ public class PalavraReservadaUtils {
 	private static final String STDLIB = "stdlib.h";
 	private static final String RETURN = "return";
 	public static HashMap<String , String> reservedWords = new HashMap<String, String>();
+	public static HashMap<String , String> reservedTypeWords = new HashMap<String, String>();
 	
 	public static void createHashMapping() {
 			
@@ -35,15 +37,18 @@ public class PalavraReservadaUtils {
 			reservedWords.put(SCANF,SCANF);
 			reservedWords.put(STRUCT,STRUCT);
 			reservedWords.put(MAIN,MAIN);
-			reservedWords.put(INT,INT);
-			reservedWords.put(DOUBLE,DOUBLE);
-			reservedWords.put(FLOAT,FLOAT);
-			reservedWords.put(LONG,LONG);
-			reservedWords.put(CHAR,CHAR);
+			
+			reservedWords.put(CONST,CONST);
 			reservedWords.put(INCLUDE,INCLUDE);
 			reservedWords.put(STDIO,STDIO);
 			reservedWords.put(STDLIB,STDLIB);
 			reservedWords.put(RETURN, RETURN);
+			
+			reservedTypeWords.put(INT, INT);
+			reservedTypeWords.put(DOUBLE,DOUBLE);
+			reservedTypeWords.put(FLOAT,FLOAT);
+			reservedTypeWords.put(LONG,LONG);
+			reservedTypeWords.put(CHAR,CHAR);
 	}
 	
 }
