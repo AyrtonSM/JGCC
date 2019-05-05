@@ -3,7 +3,7 @@ package utils;
 import java.util.HashMap;
 
 public class Delimitadores {
-	// ; | . | : | ( | ) | { | } |“ | ”|‘ | ’
+	// ; | . | : | ( | ) | { | } |“ | ”|‘ | ’ 
 	
 	public static final String PONTO_VIRGULA_DESCRICAO = "PONTO E VIRGULA";
 	public static final String VIRGULA_DESCRICAO = "VIRGULA";
@@ -16,6 +16,8 @@ public class Delimitadores {
 	public static final String ASPA_DUPLA_DESCRICAO = "ASPA DUPLA";
 	public static final String ASPA_SIMPLES_DESCRICAO = "ASPA SIMPLES";
 	public static final String HASH_DESCRICAO = "HASH";
+	public static final String COMENTARIO_INI_DESCRICAO = "COMENTARIO INICIAL";
+	public static final String COMENTARIO_FINAL_DESCRICAO = "COMENTARIO FINAL";
 	
 	public static final String VIRGULA = ",";
 	public static final String PONTO_VIRGULA = ";";
@@ -28,21 +30,25 @@ public class Delimitadores {
 	public static final String ASPA_DUPLA = "\"";
 	public static final String ASPA_SIMPLES = "\'";
 	public static final String HASH = "#";
+	public static final String COMENTARIO_INI = "/*";
+	public static final String COMENTARIO_FINAL = "*/";
 	
 	
 	public static HashMap<String , String> delimitadores = new HashMap<String, String>();
 	
 	public static void createHashMapping() {
-		delimitadores.put(PONTO_VIRGULA_DESCRICAO, PONTO_VIRGULA);
-		delimitadores.put(VIRGULA_DESCRICAO,VIRGULA);
-		delimitadores.put(PONTO_DESCRICAO, PONTO);
-		delimitadores.put(DOIS_PONTO_DESCRICAO, DOIS_PONTOS);
-		delimitadores.put(PARENTESE_ESQ_DESCRICAO, PARENTESE_ESQ);
-		delimitadores.put(PARENTESE_DIR_DESCRICAO, PARENTESE_DIR);
-		delimitadores.put(CHAVE_ESQ_DESCRICAO, CHAVE_ESQ);
-		delimitadores.put(CHAVE_DIR_DESCRICAO, CHAVE_DIR);
-		delimitadores.put(ASPA_DUPLA_DESCRICAO, ASPA_DUPLA);
-		delimitadores.put(ASPA_SIMPLES_DESCRICAO, ASPA_SIMPLES);
-		delimitadores.put(HASH_DESCRICAO, HASH);
+		delimitadores.put(PONTO_VIRGULA, PONTO_VIRGULA_DESCRICAO);
+		delimitadores.put(VIRGULA, VIRGULA_DESCRICAO);
+		delimitadores.put(PONTO, PONTO_DESCRICAO);
+		delimitadores.put(DOIS_PONTOS, DOIS_PONTO_DESCRICAO);
+		delimitadores.put(PARENTESE_ESQ, PARENTESE_ESQ_DESCRICAO);
+		delimitadores.put(PARENTESE_DIR, PARENTESE_DIR_DESCRICAO);
+		delimitadores.put(CHAVE_ESQ, CHAVE_ESQ_DESCRICAO);
+		delimitadores.put(CHAVE_DIR, CHAVE_DIR_DESCRICAO);
+		delimitadores.put(ASPA_DUPLA, ASPA_DUPLA_DESCRICAO);
+		delimitadores.put(ASPA_SIMPLES, ASPA_SIMPLES_DESCRICAO);
+		delimitadores.put(HASH, HASH_DESCRICAO);
+		delimitadores.put(COMENTARIO_INI, COMENTARIO_INI_DESCRICAO);
+		delimitadores.put(COMENTARIO_FINAL, COMENTARIO_FINAL_DESCRICAO);
 	}
 }

@@ -13,5 +13,5 @@ public class SimbolosLexicos {
 	public  static final String PALAVRAS_RESERVADAS = "palavras_reservadas";
 	public  static final String TYPE = "tipo";
 	public  static final String ERRO = "erro";
-	public  static final String TABELA_GERAL = "lexemas";
+	public  static final String TABELA_GERAL = "lexemas"; 
 }

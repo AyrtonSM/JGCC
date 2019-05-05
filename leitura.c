@@ -1,23 +1,25 @@
-#include<math.h>
-#include<stdio.h>
+# include < math.h >
+# include < stdio.h >
 
-int main (int argc, char const *argv[])
+int main ( )
 {
-	
-	/* hello */
-	float hoje_amanha = 1254.65f ;
-	int 1nome = "ayrton";
-	char b;
-	printf ( " emanoel " ) ;	
-	if(b == 2 && nome!="manel"){
-		printf("hellooow");	
-	}
-	
-	for (int i = 0 ; i <= count ; ++ i)
-	{
-		printf("olá");
-	}
+/* hello */
+float hoje_amanha = 1254.65 ;
+int nome = " ayrton " ;
+char b ;
 
-	
-	return 0 ;
+printf ( " emanoel " ) ;
+
+if ( b == 2 && nome != " manel " ) { 
+printf ( " hellooow " ) ;
+}
+
+// dfdfhgfj
+
+for ( int i = 0 ; i <= count ; ++ i ) {
+printf ( " olá " ) ;
+}
+
+// return 0 ;
+
 }

@@ -13,7 +13,7 @@ public class OperadoresLogicos {
 	public static HashMap<String , String> operadoresLogicos = new HashMap<String, String>();
 	
 	public static void createHashMapping() {
-		operadoresLogicos.put(AND_DESCRICAO, AND);
-		operadoresLogicos.put(OR_DESCRICAO, OR);
+		operadoresLogicos.put(AND, AND_DESCRICAO);
+		operadoresLogicos.put(OR, OR_DESCRICAO); 
 	}
 }

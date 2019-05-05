@@ -45,10 +45,16 @@ public class Main {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             int lineCount = 1;
             while((linha = bufferedReader.readLine()) != null) {
-                analiseLexica.analisys(linha,lineCount);
+                analiseLexica.listarElementos(linha, lineCount);
                 lineCount++;
             }   
-
+    		if(analiseLexica.comentario) {
+    					
+    					TabelaSimbolos.symbolTable.get(SimbolosLexicos.ERRO).add(new Token("Erro Lexico : "+"/*"+" comentario abre, mas não fecha",String.valueOf(analiseLexica.linhaDoErro)));
+    					for (Token t : TabelaSimbolos.symbolTable.get(SimbolosLexicos.ERRO)) {
+    						throw new Exception( "LINHA : " + t.getValue() + ":::  [DESCRICAO] :" + t.getKey() );
+    					}
+    				}
             bufferedReader.close();         
         }
         catch(FileNotFoundException e) {
@@ -58,17 +64,11 @@ public class Main {
            e.printStackTrace();
         }
 		
-//        System.out.println(TabelaSimbolos.symbolTable.keySet());
+        
         for(Token t : TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL)) {
-        	System.out.println("(TIPO) : " + t.getTipo() + "	|	(VALOR): " + t.getKey() + "	|	(LEXEMA): " + t.getValue() + "	|	(LINHAS): "+ t.getLinha());
+        	System.out.println("TIPO : " + t.getTipo() + "  |  VALOR: " + t.getKey() + "  |  LEXEMA: " + t.getValue() + "	|  LINHA: "+ t.getLinha());
         	System.out.println("");
         }
         
-//        for(String key : TabelaSimbolos.symbolTable.keySet()) {
-//        	
-//        	 for(Token t : TabelaSimbolos.symbolTable.get(key)) {
-//     				System.out.println(key + "		"+ t.getKey() + " --> " + t.getValue() + " / linha : "+t.getLinha());
-//     		}
-//        }
 	}
 }
