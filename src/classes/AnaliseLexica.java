@@ -35,7 +35,7 @@ public class AnaliseLexica {
 
 	public static boolean verificaIdentificador(String s) {
 
-		if (Character.isAlphabetic(s.charAt(0))) {
+		if (Character.isAlphabetic(s.charAt(0)) || s.charAt(0) == '#') {
 
 			return true;
 		} else {
