@@ -1,12 +1,11 @@
 #include<math.h>
 #include<stdio.h>
-
 int main (int argc, char const *argv[])
 {
 	
 	/* hello */
 	float hoje_amanha = 1254.65f ;
-	int 1nome = "ayrton";
+	int nome = "ayrton";
 	char b;
 	printf ( " emanoel " ) ;	
 	if(b == 2 && nome!="manel"){
@@ -21,3 +20,8 @@ int main (int argc, char const *argv[])
 	
 	return 0 ;
 }
+
+
+                          
+
+				

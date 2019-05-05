@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import classes.AnaliseLexica;
+import classes.AnaliseSintatica;
 import classes.Token;
 
 import utils.AritmeticosUtils;
@@ -14,6 +15,7 @@ import utils.Delimitadores;
 import utils.OperadoresLogicos;
 import utils.OperadoresRelacionaisUtils;
 import utils.PalavraReservadaUtils;
+import utils.PilhaSintatica;
 import utils.SimbolosLexicos;
 import utils.TabelaSimbolos;
 
@@ -57,7 +59,8 @@ public class Main {
         catch(IOException e) {
            e.printStackTrace();
         }
-		
+        AnaliseSintatica as = new AnaliseSintatica();
+		as.analisys(PilhaSintatica.tokenList);
 //        System.out.println(TabelaSimbolos.symbolTable.keySet());
         for(Token t : TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL)) {
         	System.out.println("(TIPO) : " + t.getTipo() + "	|	(VALOR): " + t.getKey() + "	|	(LEXEMA): " + t.getValue() + "	|	(LINHAS): "+ t.getLinha());

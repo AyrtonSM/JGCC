@@ -5,23 +5,29 @@ import utils.AritmeticosUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+
 import utils.Delimitadores;
 import utils.OperadoresLogicos;
 import utils.OperadoresRelacionaisUtils;
 import utils.PalavraReservadaUtils;
+import utils.PilhaSintatica;
 import utils.SimbolosLexicos;
 import utils.TabelaSimbolos;
 
+
 public class AnaliseLexica {
 	
-	public void analisys(String text,int lineCount) throws Exception {
+	public void analisys(String text1,int lineCount) throws Exception {
+		
+		
 		ArrayList<String> literal = new ArrayList<>();
 		boolean aspa_aberta = false;
 		
 		String token = "";
 		char anterior = 0;
 		String classe_token_anterior = "";
-		for (Character a : text.toCharArray()) {
+		for (Character a : text1.toCharArray()) {
 		
 			if(Character.isLetter(a) || a.equals('.')) {
 				
@@ -43,6 +49,8 @@ public class AnaliseLexica {
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.TYPE).add(t);
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL).add(t);
 						classe_token_anterior = SimbolosLexicos.TYPE;
+						
+						PilhaSintatica.tokenList.add(t);
 //						System.out.println(token);
 					}
 					token = "";
@@ -57,6 +65,7 @@ public class AnaliseLexica {
 						
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.PALAVRAS_RESERVADAS).add(t);
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL).add(t);
+						PilhaSintatica.tokenList.add(t);
 					}
 					token = "";
 				}
@@ -111,6 +120,7 @@ public class AnaliseLexica {
 						
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.OP_RELACIONAL).add(t);
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL).add(t);
+						PilhaSintatica.tokenList.add(t);
 					}
 					token = "";
 					
@@ -153,6 +163,7 @@ public class AnaliseLexica {
 						
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.OP_ARITMETICO).add(t);
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL).add(t);
+						PilhaSintatica.tokenList.add(t);
 					}
 				}
 			
@@ -214,6 +225,7 @@ public class AnaliseLexica {
 						t.setTipo(SimbolosLexicos.SIMB_ESPECIAIS);
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.SIMB_ESPECIAIS).add(t);
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL).add(t);
+						PilhaSintatica.tokenList.add(t);
 					}
 					token = "";
 					
@@ -252,6 +264,7 @@ public class AnaliseLexica {
 					
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.OP_LOGICO).add(t);
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL).add(t);
+						PilhaSintatica.tokenList.add(t);
 					}
 					token = "";
 				}
@@ -283,6 +296,7 @@ public class AnaliseLexica {
 						
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.NUMERAL).add(t);
 						TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL).add(t);
+						PilhaSintatica.tokenList.add(t);
 					}
 					token = "";
 				}			
@@ -309,6 +323,7 @@ public class AnaliseLexica {
 								
 								TabelaSimbolos.symbolTable.get(SimbolosLexicos.ID).add(t);
 								TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL).add(t);
+								PilhaSintatica.tokenList.add(t);
 						
 						}
 					}
@@ -318,6 +333,13 @@ public class AnaliseLexica {
 			
 
 		}
+		
+//		for (Token t : tokenList) {
+//			System.out.println(t.getKey() + " | " + t.getValue() + " | " + t.getTipo() + " | " + t.getLinha());
+//		}
+		
+		
+		
 		
 	}
 }
