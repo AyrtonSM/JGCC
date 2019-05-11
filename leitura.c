@@ -1,7 +1,7 @@
 # include < math.h >
 # include < stdio.h >
 
-int main ( )
+int main ( (
 {
 /* hello */
 float hoje_amanha = 1254.65 ;

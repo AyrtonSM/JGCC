@@ -64,16 +64,16 @@ public class AnaliseSintatica {
 		
 		if(tks.get(0).getKey().equals("#")) {
 			B();
-		}else {
-			
 		}
-
+		
+		A();
+		
 		return "";
 	}
 	private void verificaToken() {
 		
 		if(tokens.peek().equals(tks.get(0).getKey())){
-			System.out.println("Oh ai deu bom.");
+			System.out.println("Oh ai deu bom." + tks.get(0).getKey());
 			tokens.pop();
 			tks.remove(0);
 		}else {
@@ -87,20 +87,44 @@ public class AnaliseSintatica {
 		
 	}
 	int counter = 0;
-	private void A() {
-		if(tks.get(0).equals("int")) {
-			if(tks.get(1).equals("main")) {
-				tokens.push("int");
-				verificaToken();
+	private void A() throws Exception {
+		
+		System.out.println(tokens.get(0));
+		
+		if(tks.get(0).getKey().equals("int")) {
+			if(tks.get(1).getKey().equals("main")) {
+				
+				if(tks.get(2).getKey().equals("(")) {
+					tokens.push("int");
+					verificaToken();
+					
+					
+					tokens.push("main");
+					verificaToken();
+					
+					tokens.push("(");
+					verificaToken();
+					
+				}else if(tks.get(2).getKey().equals("=")) {
+					throw new Exception("[LINHA] " + tks.get(1).getLinha() + " ::: main eh uma palavra reservada da linguagem e nao pode ser usada como variavel ");
+				}else{
+					throw new Exception("[LINHA]" + tks.get(1).getLinha()+ " ::: estava esperando ( e recebi "+tks.get(2).getKey());
+				}
+				
+			}else if(Character.isAlphabetic(tks.get(1).getKey().charAt(0))) {
+				
+				// APARENTEMENTE DA PRA RECONHECER VARIAVEIS AQUI, MAS NÃO ACHO QUE AQUI SEJA O PONTO, MAS ENFIM..
 			}
+			
+			
+		}else if(tks.get(0).getKey().equals("main")) {
+			tokens.push("main");
+			verificaToken();
+		}else {
+			
+			System.out.println("algo de errado nao esta certo : "+ tks.get(0).getKey());
 		}
-		
-		
-		if (counter == 0) {
-			IF();
-			counter++;
-		}
-		
+	
 		
 	}
 	
@@ -134,7 +158,7 @@ public class AnaliseSintatica {
 		E();
 	}
 
-	private void C() {
+	private void C() throws Exception {
 		A();	
 	}
 	
