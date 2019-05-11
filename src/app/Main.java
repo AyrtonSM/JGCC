@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import classes.AnaliseLexica;
+import classes.AnaliseSintatica;
 import classes.Token;
 
 import utils.AritmeticosUtils;
@@ -64,11 +65,12 @@ public class Main {
            e.printStackTrace();
         }
 		
-        
-        for(Token t : TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL)) {
-        	System.out.println("TIPO : " + t.getTipo() + "  |  VALOR: " + t.getKey() + "  |  LEXEMA: " + t.getValue() + "	|  LINHA: "+ t.getLinha());
-        	System.out.println("");
-        }
+        AnaliseSintatica as = new AnaliseSintatica(TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL));
+   
+//        for(Token t : TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL)) {
+//        	System.out.println("TIPO : " + t.getTipo() + "  |  VALOR: " + t.getKey() + "  |  LEXEMA: " + t.getValue() + "	|  LINHA: "+ t.getLinha());
+//        	System.out.println("");
+//        }
         
 	}
 }

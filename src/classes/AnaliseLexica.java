@@ -124,6 +124,7 @@ public class AnaliseLexica {
 				t.setTipo(SimbolosLexicos.TYPE);
 				TabelaSimbolos.symbolTable.get(SimbolosLexicos.TYPE).add(t);
 				TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL).add(t);
+				
 
 			}
 			token = "";

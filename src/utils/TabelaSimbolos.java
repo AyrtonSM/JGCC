@@ -9,6 +9,7 @@ import utils.SimbolosLexicos;
 public class TabelaSimbolos {
 		
 	public static HashMap<String , ArrayList<Token>> symbolTable = new HashMap<String, ArrayList<Token>>();
+
 	
 	public static void createSymbleTable() {
 		
