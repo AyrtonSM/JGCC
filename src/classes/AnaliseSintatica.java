@@ -221,25 +221,77 @@ public class AnaliseSintatica {
 		tokens.push("float");
 		verificaToken();
 		
-		tokens.push(tks.get(0).getKey());
-		verificaToken();
-		
-		tokens.push("=");
-		verificaToken();
-		
-		tokens.push(tks.get(0).getKey());
-		verificaToken();
-		
-		tokens.push(";");
-		verificaToken();
-		
-		A();
-		
+		M();
+//		P();
+//		
+//		tokens.push(";");
+//		verificaToken();
+//		
+//		A();
+//		
 		System.out.println("ANALISE SINTATICA COMPLETADA COM SUCESSO.");
 	
 		
 	}
 	
+	private void M() throws Exception {
+		
+		N(0,tks.get(0).getKey());
+	}
+	
+	
+
+	private String N(int pos, String keyArray) throws Exception {
+		
+		int size = keyArray.length();
+		System.out.println("== : "+ size + " : ---> "+ keyArray);
+		if (size <= pos) return keyArray;
+		
+		if(Character.isAlphabetic(keyArray.toCharArray()[pos]) || keyArray.toCharArray()[pos] == '_') {
+			System.out.println("opa : " + keyArray.toCharArray()[pos]);
+		    N(pos+1 , keyArray.substring(pos, size));
+			
+		}else if(Character.isDigit(keyArray.toCharArray()[pos])) {
+			O(pos,keyArray);
+		}
+		
+		return null;
+		
+		
+	}
+		
+//	
+//		
+//		
+//		tokens.push(tks.get(0).getKey());
+//		verificaToken();
+//		
+		
+	
+	private void O(int pos, String keyArray) throws Exception {
+		int size = keyArray.length();
+		
+		if(Character.isDigit(keyArray.toCharArray()[pos])) {
+			System.out.println("opa : " + keyArray.toCharArray()[pos]);
+		    O(pos+1 , keyArray.substring(pos, size));
+			
+		}else if(Character.isAlphabetic(keyArray.toCharArray()[pos]) || keyArray.toCharArray()[pos] == '_') {
+			N(pos,keyArray);
+		}
+		
+		
+	}
+	
+	
+	private void P() throws Exception {
+		
+		tokens.push("=");
+		verificaToken();
+		
+		
+		
+	}
+
 	private void IF() {
 		F();
 		
