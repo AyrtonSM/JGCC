@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Stack;
 
 import utils.PalavraReservadaUtils;
@@ -10,7 +11,8 @@ public class AnaliseSintatica {
 	
 	private Stack<String> tokens = new Stack(); 
 	private ArrayList<Token> tks;
-	
+	private ArrayList<Token> bloco = new ArrayList<Token>();
+ 	
 	
 	public AnaliseSintatica(ArrayList<Token> tks) throws Exception{
 		this.tks = tks;
@@ -70,8 +72,14 @@ public class AnaliseSintatica {
 		
 		return "";
 	}
-	private void verificaToken() {
+	private void verificaToken() throws Exception {
 		
+		if(tks.get(0).getKey().equals("{")) {
+			if(!checkBlock()) {
+				throw new Exception("Está faltando fechar as chaves do bloco da linha "+bloco.get(0).getLinha());
+			}
+		}
+	
 		if(tokens.peek().equals(tks.get(0).getKey())){
 			System.out.println("Oh ai deu bom." + tks.get(0).getKey());
 			tokens.pop();
@@ -86,12 +94,32 @@ public class AnaliseSintatica {
 		}
 		
 	}
+	private boolean checkBlock() {
+		Iterator<Token> iteratorToken = tks.iterator();
+		while(iteratorToken.hasNext()) {
+			Token t = iteratorToken.next();
+			if(t.getKey().equals("{")) {
+				bloco.add(t);
+			}else if (t.getKey().equals("}")) {
+				if(bloco.get(bloco.size()-1).getKey().equals("{")){
+					
+					bloco.remove(bloco.size()-1);
+				}
+			}
+		}
+		
+
+		return bloco.isEmpty();
+	}
+	
+	
 	int counter = 0;
 	private void A() throws Exception {
 		
 		System.out.println(tokens.get(0));
 		
 		if(tks.get(0).getKey().equals("int")) {
+			
 			if(tks.get(1).getKey().equals("main")) {
 				
 				if(tks.get(2).getKey().equals("(")) {
@@ -105,6 +133,13 @@ public class AnaliseSintatica {
 					tokens.push("(");
 					verificaToken();
 					
+					tokens.push(")");
+					verificaToken();
+					
+					tokens.push("{");
+					verificaToken();
+					
+					
 				}else if(tks.get(2).getKey().equals("=")) {
 					throw new Exception("[LINHA] " + tks.get(1).getLinha() + " ::: main eh uma palavra reservada da linguagem e nao pode ser usada como variavel ");
 				}else{
@@ -112,6 +147,17 @@ public class AnaliseSintatica {
 				}
 				
 			}else if(Character.isAlphabetic(tks.get(1).getKey().charAt(0))) {
+				if(Character.isAlphabetic(tks.get(1).getKey().charAt(0))) {
+					for(String key : PalavraReservadaUtils.reservedWords.keySet()) {
+						if(key.equals(tks.get(1).getKey())) {
+							throw new Exception("[LINHA] " + tks.get(1).getLinha() + "::: Palavra reservada '"+tks.get(1).getKey()+"' nao pode ser usada como nome de variavel");
+						}
+					}
+				}
+				
+				if(tks.get(2).getKey().equals("=")){
+					INT();
+				}
 				
 				// APARENTEMENTE DA PRA RECONHECER VARIAVEIS AQUI, MAS NÃO ACHO QUE AQUI SEJA O PONTO, MAS ENFIM..
 			}
@@ -120,10 +166,76 @@ public class AnaliseSintatica {
 		}else if(tks.get(0).getKey().equals("main")) {
 			tokens.push("main");
 			verificaToken();
-		}else {
+		}else if(tks.get(0).getKey().equals("float")) {
+			if(Character.isAlphabetic(tks.get(1).getKey().charAt(0))) {
+				for(String key : PalavraReservadaUtils.reservedWords.keySet()) {
+					if(key.equals(tks.get(1).getKey())) {
+						throw new Exception("[LINHA] " + tks.get(1).getLinha() + "::: Palavra reservada '"+tks.get(1).getKey()+"' nao pode ser usada como nome de variavel");
+					}
+				}
+				
+				if(tks.get(2).getKey().equals("=")) {
+					
+					FLOAT();
+					
+				}
+			}
+				
 			
+		}else {
 			System.out.println("algo de errado nao esta certo : "+ tks.get(0).getKey());
 		}
+	
+		
+	}
+	
+	private void INT() throws Exception {
+		tokens.push("int");
+		verificaToken();
+		
+		tokens.push(tks.get(0).getKey());
+		verificaToken();
+		
+		tokens.push("=");
+		verificaToken();
+		
+		tokens.push("\"");
+		verificaToken();
+		
+		
+		System.out.println("--> "+tks.get(0).getKey());
+		
+		tokens.push(tks.get(0).getKey());
+		verificaToken();
+	
+		tokens.push("\"");
+		verificaToken();
+//	
+		tokens.push(";");
+		verificaToken();
+////		
+		A();
+//		
+	}
+	private void FLOAT() throws Exception {
+		tokens.push("float");
+		verificaToken();
+		
+		tokens.push(tks.get(0).getKey());
+		verificaToken();
+		
+		tokens.push("=");
+		verificaToken();
+		
+		tokens.push(tks.get(0).getKey());
+		verificaToken();
+		
+		tokens.push(";");
+		verificaToken();
+		
+		A();
+		
+		System.out.println("ANALISE SINTATICA COMPLETADA COM SUCESSO.");
 	
 		
 	}

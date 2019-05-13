@@ -1,12 +1,12 @@
 # include < math.h >
 # include < stdio.h >
-
-int main ( (
+# include < TONTON.h >
+int main ( )
 {
 /* hello */
-float hoje_amanha = 1254.65 ;
+float hoje_amanha = 124.65 ;
 int nome = " ayrton " ;
-char b ;
+/* char b ; */
 
 printf ( " emanoel " ) ;
 
@@ -18,8 +18,9 @@ printf ( " hellooow " ) ;
 
 for ( int i = 0 ; i <= count ; ++ i ) {
 printf ( " olá " ) ;
-}
+
 
 // return 0 ;
 
+}
 }
