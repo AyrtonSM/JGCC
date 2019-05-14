@@ -4,23 +4,25 @@
 int main ( )
 {
 /* hello */
-float hoje_amanha = 124.65 ;
+float hoje23_ama5nha = 124.65 ;
 int nome = " ayrton " ;
 /* char b ; */
 
-printf ( " emanoel " ) ;
-
-if ( b == 2 && nome != " manel " ) { 
-printf ( " hellooow " ) ;
+/* printf ( " emanoel " ) ; */
+ 
+if ( b == 2 && nome != " manel " ) {
+ if ( b ) {
+  int casa = " minha " ;
+ }
 }
 
 // dfdfhgfj
 
-for ( int i = 0 ; i <= count ; ++ i ) {
+/* for ( int i = 0 ; i <= count ; ++ i ) {
 printf ( " olá " ) ;
 
 
 // return 0 ;
 
-}
+} */
 }
