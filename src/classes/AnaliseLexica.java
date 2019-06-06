@@ -124,8 +124,8 @@ public class AnaliseLexica {
 				t.setTipo(SimbolosLexicos.TYPE);
 				TabelaSimbolos.symbolTable.get(SimbolosLexicos.TYPE).add(t);
 				TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL).add(t);
+				//System.out.println(t.getKey() + "--> ISSO É UM TIPO DE DADO " +t.getTipo() );
 				
-
 			}
 			token = "";
 
@@ -224,6 +224,8 @@ public class AnaliseLexica {
 
 					TabelaSimbolos.symbolTable.get(SimbolosLexicos.ID).add(t);
 					TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL).add(t);
+					
+					System.out.println(t.getKey() + " -> eh um id!" + t.getTipo() );
 				}
 				token = "";
 				

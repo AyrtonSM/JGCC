@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import classes.AnaliseLexica;
 import classes.AnaliseSintatica;
 import classes.Token;
-
+import javafx.scene.control.Tab;
 import utils.AritmeticosUtils;
 import utils.Delimitadores;
 import utils.OperadoresLogicos;
@@ -64,13 +64,25 @@ public class Main {
         catch(IOException e) {
            e.printStackTrace();
         }
-		
+        
+        for(Token t : TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL)) {
+        	System.out.println("TIPO : " + t.getTipo() + "  |  VALOR: " + t.getKey() + "  |  LEXEMA: " + t.getValue() + "	|  LINHA: "+ t.getLinha());
+        	System.out.println("");
+        }
+        System.out.println("ANALISE LÉXICA COMPLETADA COM SUCESSO.");
+        
+        System.out.println("\n===============================================================================================\n");
+        
+        System.out.println("\nINICIANDO ANALISE SINTATICA ... \n");
+        
+        
         AnaliseSintatica as = new AnaliseSintatica(TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL));
-   
-//        for(Token t : TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL)) {
-//        	System.out.println("TIPO : " + t.getTipo() + "  |  VALOR: " + t.getKey() + "  |  LEXEMA: " + t.getValue() + "	|  LINHA: "+ t.getLinha());
-//        	System.out.println("");
-//        }
+        System.out.println("ANALISE SINTATICA COMPLETADA COM SUCESSO.");
+        
+        for (String a : TabelaSimbolos.tiposDeclarados.keySet()) {
+        	System.out.println(a + "--> " + TabelaSimbolos.tiposDeclarados.get(a));
+        }
+        
         
 	}
 }
