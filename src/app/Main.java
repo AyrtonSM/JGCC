@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import classes.AnaliseLexica;
 import classes.AnaliseSintatica;
 import classes.Token;
-import javafx.scene.control.Tab;
 import utils.AritmeticosUtils;
 import utils.Delimitadores;
 import utils.OperadoresLogicos;
@@ -79,6 +78,8 @@ public class Main {
         AnaliseSintatica as = new AnaliseSintatica(TabelaSimbolos.symbolTable.get(SimbolosLexicos.TABELA_GERAL));
         System.out.println("ANALISE SINTATICA COMPLETADA COM SUCESSO.");
         
+        
+        System.out.println("\nTIPOS DECLARADOS ");
         for (String a : TabelaSimbolos.tiposDeclarados.keySet()) {
         	System.out.println(a + "--> " + TabelaSimbolos.tiposDeclarados.get(a));
         }

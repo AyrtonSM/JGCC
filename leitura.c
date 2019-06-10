@@ -5,10 +5,11 @@ int main ( ) {
 
 
 /* hello */
-int ayrton = 22.5 ;
+char ayrton = ' x ' ;
 float sss_ama5nha = 124 ;
-int nome5T = ayrton ;
-char b = x ;
+char nome5T = ' a ' ;
+char manda = ayrton ;
+int manel = 14 ;
 
 // printf ( " emanoel " ) ;
  

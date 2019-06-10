@@ -3,6 +3,7 @@ package classes;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
+import java.util.concurrent.ExecutionException;
 
 import utils.Delimitadores;
 import utils.OperadoresLogicos;
@@ -18,8 +19,8 @@ public class AnaliseSintatica {
 	private ArrayList<Token> bloco = new ArrayList<Token>();
 	//private String tokenAnterior;
 	private boolean blocksChecked = false;
-	
-	
+
+
 	public AnaliseSintatica(ArrayList<Token> tks) throws Exception {
 		this.tks = tks;
 		B();
@@ -58,7 +59,7 @@ public class AnaliseSintatica {
 	public void B() throws Exception {
 		tokens.push("$");
 		tokens.push("#");
-		
+
 		//System.out.println(tokens.peek());
 
 		verificaToken();
@@ -76,39 +77,39 @@ public class AnaliseSintatica {
 		}
 
 		A();
-		
-		
+
+
 
 	}
 
 	private void verificaToken() throws Exception {
-		
-	System.out.println("Topo da Pilha : " + tokens.peek() + " | Na cabeça da lista tenho : " +  tks.get(0).getKey());
-		
-//		if(tokens.peek().equals(")")) {
-//			tokenAnterior = tokens.peek();
-//		}
-//		
+
+		System.out.println("Topo da Pilha : " + tokens.peek() + " | Na cabeça da lista tenho : " +  tks.get(0).getKey());
+
+		//		if(tokens.peek().equals(")")) {
+		//			tokenAnterior = tokens.peek();
+		//		}
+		//		
 		if (tks.get(0).getKey().equals("{")) {
-			
+
 			if (!checkBlock()) {
 				throw new Exception("Está faltando fechar as chaves do bloco da linha " + bloco.get(0).getLinha());
 			}else {
 				//System.out.println("deveria apagar : "+ tokens.peek());
-				
+
 				tokens.pop();
 				tks.remove(0);
 			}
 		}
-		
+
 		if (tokens.peek().equals(tks.get(0).getKey())) {
 			//System.out.println("Oh ai deu bom." + tks.get(0).getKey());
 			tokens.pop();
 			tks.remove(0);
 		} else if(!tokens.peek().equals("$")){
-			
+
 			throw new Exception(
-					"[ERRO SINTÁTICO] :: Estava esperando " + tokens.peek() + " e recebi " + tks.get(0).getKey());
+					"[LINHA]: " + tks.get(0).getLinha() + " [ERRO SINTÁTICO] :: Estava esperando " + tokens.peek() + " e recebi " + tks.get(0).getKey());
 		}
 	}
 
@@ -117,9 +118,9 @@ public class AnaliseSintatica {
 			Iterator<Token> iteratorToken = tks.iterator();
 			while (iteratorToken.hasNext()) {
 				Token t = iteratorToken.next();
-			
+
 				if (t.getKey().equals("{")) {
-					
+
 					bloco.add(t);
 					//iteratorToken.remove();
 				} else if (t.getKey().equals("}")) {
@@ -127,7 +128,7 @@ public class AnaliseSintatica {
 						if (bloco.get(bloco.size() - 1).getKey().equals("{")) {
 
 							bloco.remove(bloco.size() - 1);
-						//	iteratorToken.remove();
+							//	iteratorToken.remove();
 						}
 					} catch (ArrayIndexOutOfBoundsException e) {
 						throw new Exception("[ERRO] ::: [LINHA] : " + t.getLinha() + " . Existe um '}' sem '{' ");
@@ -140,7 +141,7 @@ public class AnaliseSintatica {
 		}else {
 			return true;	
 		}
-		
+
 	}
 
 	int counter = 0;
@@ -149,12 +150,12 @@ public class AnaliseSintatica {
 
 		//System.out.println(tokens.get(0));
 		if (!tks.isEmpty()) {
-		
-		if(Delimitadores.delimitadores.containsKey(tks.get(0).getKey())) {
-			tks.remove(0);
-		}else {
-		
-				
+
+			if(Delimitadores.delimitadores.containsKey(tks.get(0).getKey())) {
+				tks.remove(0);
+			}else {
+
+
 				if (tks.get(0).getKey().equals("int")) {
 
 					if (tks.get(1).getKey().equals("main")) {
@@ -194,7 +195,7 @@ public class AnaliseSintatica {
 						}
 
 						if (tks.get(2).getKey().equals("=")) {
-							
+
 							INT();
 						}
 
@@ -220,7 +221,6 @@ public class AnaliseSintatica {
 					}
 
 				}else if(tks.get(0).getKey().equals("char")) {
-					System.out.println("--------------------------------------Aqui e um char");
 					if (Character.isAlphabetic(tks.get(1).getKey().charAt(0))) {
 						for (String key : PalavraReservadaUtils.reservedWords.keySet()) {
 							if (key.equals(tks.get(1).getKey())) {
@@ -234,145 +234,142 @@ public class AnaliseSintatica {
 							CHAR();
 
 						}
-					
-						
 					}
 				} else if (tks.get(0).getKey().equals("if")) {
 					IF();
 				} else {
 					throw new Exception("ERRO ::: [LINHA] : "+tks.get(0).getLinha()+" >> Token '"+tks.get(0).getKey()+"' não está definido OU não está sendo usado corretamente ");
-					
+
 				}
 			}
 		}
-		
+
 
 	}
 
 	private void CHAR() throws Exception {
-		
+
 		tokens.push("char");
 		verificaToken();
-		
+
 		if(PalavraReservadaUtils.reservedWords.containsKey(tks.get(0).getKey()) || PalavraReservadaUtils.reservedTypeWords.containsKey(tks.get(0).getKey()) ) {
 			throw new Exception("ERRO ::: '"+ tks.get(0).getKey() + "' não pode ser referenciado como nome de variavel pois é uma palavra reservada");
 		}
-		
+
 		TabelaSimbolos.tiposDeclarados.put(tks.get(0).getKey(), "char");
-		//String tmp = tks.get(0).getKey();
-		
+
 		tokens.push(tks.get(0).getKey());
 		verificaToken();
 
 		tokens.push("=");
 		verificaToken();
-		
+
 		if(tks.get(0).getKey().equals("'")) {
-			
-			
+
+
 			tokens.push("'");
 			verificaToken();
 
-			//System.out.println("--> " + tks.get(0).getKey());
 			if(tks.get(0).getKey().length() == 1) {
 				tokens.push(tks.get(0).getKey());
 				verificaToken();
 			}else {
 				throw new Exception ("[LINHA]: "+ tks.get(0).getLinha() + " [ERRO] ::: Tamanho de char invalido");
 			}
-			
+
 
 			tokens.push("'");
 			verificaToken();
-			
+
 			tokens.push(";");
 			verificaToken();
-			
+
+
+		}else {  
+			if(TabelaSimbolos.tiposDeclarados.containsKey(tks.get(0).getKey())){
+
+				String typeVariable = TabelaSimbolos.tiposDeclarados.get(tks.get(0).getKey());
+
+				if(!typeVariable.equals("char")) {
+					throw new Exception("[LINHA]:"+tks.get(0).getLinha()+" [ERRO SEMANTICO] ::: O tipo da variavel '"+tks.get(0).getKey()+ "' esta sendo associada incorretamente");
+				}	
+			}else {
+				throw new Exception("[LINHA]:" + tks.get(0).getLinha() + "  ::: A variavel nao foi declarada na aplicacao");
+			}
+
+			tokens.push(tks.get(0).getKey());
+			verificaToken();
+
+
 		}
+
+		
+
+		A();
 	}
-	
+
 	private void INT() throws Exception {
 		tokens.push("int");
 		verificaToken();
-		
+
 		if(PalavraReservadaUtils.reservedWords.containsKey(tks.get(0).getKey()) || PalavraReservadaUtils.reservedTypeWords.containsKey(tks.get(0).getKey()) ) {
 			throw new Exception("ERRO ::: '"+ tks.get(0).getKey() + "' não pode ser referenciado como nome de variavel pois é uma palavra reservada");
 		}
-		
+
 		TabelaSimbolos.tiposDeclarados.put(tks.get(0).getKey(), "int");
 		//String tmp = tks.get(0).getKey();
-		
+
 		tokens.push(tks.get(0).getKey());
 		verificaToken();
 
 		tokens.push("=");
 		verificaToken();
 		if(tks.get(0).getKey().equals("\"")) {
-			
+
 			throw new Exception("[LINHA]: "+tks.get(0).getLinha()+" [ERRO SEMANTICO] ::: O tipo do dado informado nao eh compativel. \n ");
 
-//			tokens.push("\"");
-//			verificaToken();
-//
-//			//System.out.println("--> " + tks.get(0).getKey());
-//			try {
-//				Integer.parseInt(tks.get(0).getKey());
-//			}catch(Exception e) {
-//				e.printStackTrace();
-//			}
-//		
-//			
-//			
-//			tokens.push(tks.get(0).getKey());
-//			verificaToken();
-//
-//			tokens.push("\"");
-//			verificaToken();
-			
-			
 		}else {
-			
-				if(TabelaSimbolos.tiposDeclarados.containsKey(tks.get(0).getKey())){
-					String typeVariable = TabelaSimbolos.tiposDeclarados.get(tks.get(0).getKey());
-					//String tipoRecebido = TabelaSimbolos.tiposDeclarados.get(tks.get(0).getKey());
-					if(!typeVariable.equals("int")) {
-						throw new Exception("[LINHA]:"+tks.get(0).getLinha()+" [ERRO SEMANTICO] ::: O tipo da variavel '"+tks.get(0).getKey()+ "' esta sendo associada incorretamente");
-					}
-					
-					
-				}else {
-					try {
-						
-						Float.parseFloat(tks.get(0).getKey());
-						//Integer.parseInt(tks.get(0).getKey());
-						
-					}catch (NumberFormatException e) {
-						throw new Exception("O tipo do dado informado nao eh compativel. \n A variavel '"+tks.get(0).getKey() + "' nao foi definida no escopo da aplicacao");
-					}
-					
+
+			if(TabelaSimbolos.tiposDeclarados.containsKey(tks.get(0).getKey())){
+				String typeVariable = TabelaSimbolos.tiposDeclarados.get(tks.get(0).getKey());
+				
+				if(!typeVariable.equals("int")) {
+					throw new Exception("[LINHA]:"+tks.get(0).getLinha()+" [ERRO SEMANTICO] ::: O tipo da variavel '"+tks.get(0).getKey()+ "' esta sendo associada incorretamente");
 				}
-			
-			
+
+
+			}else {
+				try {
+
+					Float.parseFloat(tks.get(0).getKey());
+		
+				}catch (NumberFormatException e) {
+					throw new Exception("O tipo do dado informado nao eh compativel. \n A variavel '"+tks.get(0).getKey() + "' nao foi definida no escopo da aplicacao");
+				}
+
+			}
+
+
 			if(OperadoresLogicos.operadoresLogicos.containsKey(tks.get(0).getKey()) || 
 					OperadoresRelacionaisUtils.operadoresRelacionais.containsKey(tks.get(0).getKey()) || 
 					PalavraReservadaUtils.reservedWords.containsKey(tks.get(0).getKey()) || 
 					PalavraReservadaUtils.reservedTypeWords.containsKey(tks.get(0).getKey()) || 
 					Delimitadores.delimitadores.containsKey(tks.get(0).getKey())) {
-				
+
 				throw new Exception("[LINHA] ::: " + tks.get(0).getLinha() + " >> ERRO : '"+tks.get(0).getKey()+"' não deve ser definido como valor de uma variavel");
-				
+
 			}
-			
+
 			tokens.push(tks.get(0).getKey());
 			verificaToken();
 		}
-		
-	
+
+
 		tokens.push(";");
 		verificaToken();
-	
+
 		A();
-		
+
 	}
 
 	private void FLOAT() throws Exception {
@@ -383,7 +380,7 @@ public class AnaliseSintatica {
 		P();
 		A();
 
-		
+
 	}
 
 	private void M() throws Exception {
@@ -435,8 +432,8 @@ public class AnaliseSintatica {
 
 		tokens.push("=");
 		verificaToken();
-		
-		
+
+
 		if(TabelaSimbolos.tiposDeclarados.containsKey(tks.get(0).getKey())){
 			String typeVariable = TabelaSimbolos.tiposDeclarados.get(tks.get(0).getKey());
 			//String tipoRecebido = TabelaSimbolos.tiposDeclarados.get(tks.get(0).getKey());
@@ -444,20 +441,20 @@ public class AnaliseSintatica {
 				throw new Exception("[LINHA]:"+tks.get(0).getLinha()+" [ERRO SEMANTICO] ::: O tipo da variavel '"+tks.get(0).getKey()+ "' esta sendo associada incorretamente");
 
 			}
-			
-			
+
+
 		}else {
 			try {
-				
+
 				Float.parseFloat(tks.get(0).getKey());
 				//Integer.parseInt(tks.get(0).getKey());
-				
+
 			}catch (NumberFormatException e) {
 				throw new Exception("[LINHA]: "+tks.get(0).getLinha()+" [ERRO SEMANTICO] ::: O tipo do dado informado nao eh compativel. \n ");
 			}
-			
+
 		}
-		
+
 		tokens.push(tks.get(0).getKey());
 		verificaToken();
 
@@ -601,6 +598,6 @@ public class AnaliseSintatica {
 		Z();
 	}
 
-	
+
 
 }
