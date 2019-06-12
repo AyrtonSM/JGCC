@@ -80,8 +80,8 @@ public class Main {
         
         
         System.out.println("\nTIPOS DECLARADOS ");
-        for (String a : TabelaSimbolos.tiposDeclarados.keySet()) {
-        	System.out.println(a + "--> " + TabelaSimbolos.tiposDeclarados.get(a));
+        for (String a : TabelaSimbolos.tiposDeclaradosmain.keySet()) {
+        	System.out.println(a + "--> " + TabelaSimbolos.tiposDeclaradosmain.get(a));
         }
         
         

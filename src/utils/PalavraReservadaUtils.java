@@ -23,6 +23,7 @@ public class PalavraReservadaUtils {
 	private static final String STDIO = "stdio.h";
 	private static final String STDLIB = "stdlib.h";
 	private static final String RETURN = "return";
+	
 	public static HashMap<String , String> reservedWords = new HashMap<String, String>();
 	public static HashMap<String , String> reservedTypeWords = new HashMap<String, String>();
 	

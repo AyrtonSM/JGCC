@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
 import java.util.concurrent.ExecutionException;
@@ -17,9 +18,12 @@ public class AnaliseSintatica {
 	private Stack<String> tokens = new Stack();
 	private ArrayList<Token> tks;
 	private ArrayList<Token> bloco = new ArrayList<Token>();
+	public final String BLOCO = "BLOCO";
 	//private String tokenAnterior;
+	boolean isBlock = false;
+	public String ultimoBlocoVisto = "";
 	private boolean blocksChecked = false;
-
+	private ArrayList<Bloco> blocosDeclarados = new ArrayList<Bloco>();
 
 	public AnaliseSintatica(ArrayList<Token> tks) throws Exception {
 		this.tks = tks;
@@ -86,10 +90,6 @@ public class AnaliseSintatica {
 
 		System.out.println("Topo da Pilha : " + tokens.peek() + " | Na cabeça da lista tenho : " +  tks.get(0).getKey());
 
-		//		if(tokens.peek().equals(")")) {
-		//			tokenAnterior = tokens.peek();
-		//		}
-		//		
 		if (tks.get(0).getKey().equals("{")) {
 
 			if (!checkBlock()) {
@@ -255,9 +255,24 @@ public class AnaliseSintatica {
 		if(PalavraReservadaUtils.reservedWords.containsKey(tks.get(0).getKey()) || PalavraReservadaUtils.reservedTypeWords.containsKey(tks.get(0).getKey()) ) {
 			throw new Exception("ERRO ::: '"+ tks.get(0).getKey() + "' não pode ser referenciado como nome de variavel pois é uma palavra reservada");
 		}
-
-		TabelaSimbolos.tiposDeclarados.put(tks.get(0).getKey(), "char");
-
+		
+		boolean allClose = false;
+		for(int i = blocosDeclarados.size()-  1 ; i >= 0 ; i--) {
+			if(!blocosDeclarados.get(i).isClosed()) {
+				HashMap<String, String> map = TabelaSimbolos.bloco.get(blocosDeclarados.get(i).getId());
+				if(map.containsKey(tks.get(0).getKey())) {
+					throw new Exception("[LINHA] : "+tks.get(0).getLinha()+" | [ERRO SEMÂNTICO] ::: Variavel '"+tks.get(0).getKey()+"' ja esta declarada nesse bloco.");
+				}else {
+					map.put(tks.get(0).getKey(), "char");
+					break;
+				}
+			}
+			allClose = true;
+		}
+		
+		if(allClose || blocosDeclarados.isEmpty())
+			TabelaSimbolos.tiposDeclaradosmain.put(tks.get(0).getKey(), "char");	
+	
 		tokens.push(tks.get(0).getKey());
 		verificaToken();
 
@@ -285,26 +300,33 @@ public class AnaliseSintatica {
 			verificaToken();
 
 
-		}else {  
-			if(TabelaSimbolos.tiposDeclarados.containsKey(tks.get(0).getKey())){
+		}else {
+			
+			
+			System.out.println("---------> "+tks.get(0).getKey());
+			
+			
+			
+			
+			if(TabelaSimbolos.tiposDeclaradosmain.containsKey(tks.get(0).getKey())){
 
-				String typeVariable = TabelaSimbolos.tiposDeclarados.get(tks.get(0).getKey());
+				String typeVariable = TabelaSimbolos.tiposDeclaradosmain.get(tks.get(0).getKey());
 
 				if(!typeVariable.equals("char")) {
 					throw new Exception("[LINHA]:"+tks.get(0).getLinha()+" [ERRO SEMANTICO] ::: O tipo da variavel '"+tks.get(0).getKey()+ "' esta sendo associada incorretamente");
 				}	
 			}else {
-				throw new Exception("[LINHA]:" + tks.get(0).getLinha() + "  ::: A variavel nao foi declarada na aplicacao");
+				throw new Exception("[LINHA]:" + tks.get(0).getLinha() + "  ::: A variavel '"+tks.get(0).getKey()+ "' nao foi declarada na aplicacao");
 			}
 
 			tokens.push(tks.get(0).getKey());
 			verificaToken();
-
+			
 
 		}
 
 		
-
+		
 		A();
 	}
 
@@ -316,7 +338,7 @@ public class AnaliseSintatica {
 			throw new Exception("ERRO ::: '"+ tks.get(0).getKey() + "' não pode ser referenciado como nome de variavel pois é uma palavra reservada");
 		}
 
-		TabelaSimbolos.tiposDeclarados.put(tks.get(0).getKey(), "int");
+		TabelaSimbolos.tiposDeclaradosmain.put(tks.get(0).getKey(), "int");
 		//String tmp = tks.get(0).getKey();
 
 		tokens.push(tks.get(0).getKey());
@@ -330,8 +352,8 @@ public class AnaliseSintatica {
 
 		}else {
 
-			if(TabelaSimbolos.tiposDeclarados.containsKey(tks.get(0).getKey())){
-				String typeVariable = TabelaSimbolos.tiposDeclarados.get(tks.get(0).getKey());
+			if(TabelaSimbolos.tiposDeclaradosmain.containsKey(tks.get(0).getKey())){
+				String typeVariable = TabelaSimbolos.tiposDeclaradosmain.get(tks.get(0).getKey());
 				
 				if(!typeVariable.equals("int")) {
 					throw new Exception("[LINHA]:"+tks.get(0).getLinha()+" [ERRO SEMANTICO] ::: O tipo da variavel '"+tks.get(0).getKey()+ "' esta sendo associada incorretamente");
@@ -388,7 +410,7 @@ public class AnaliseSintatica {
 			throw new Exception("[LINHA] : "+tks.get(0).getLinha()+" >> ERRO ::: '"+ tks.get(0).getKey() + "' não pode ser referenciado como nome de variavel pois é uma palavra reservada");
 		}
 		if (N(0, tks.get(0).getKey(), tks.get(0).getKey().length() - 1)) {
-			TabelaSimbolos.tiposDeclarados.put(tks.get(0).getKey(), "float");
+			TabelaSimbolos.tiposDeclaradosmain.put(tks.get(0).getKey(), "float");
 			tokens.add(tks.get(0).getKey());
 			verificaToken();
 		}
@@ -434,9 +456,9 @@ public class AnaliseSintatica {
 		verificaToken();
 
 
-		if(TabelaSimbolos.tiposDeclarados.containsKey(tks.get(0).getKey())){
-			String typeVariable = TabelaSimbolos.tiposDeclarados.get(tks.get(0).getKey());
-			//String tipoRecebido = TabelaSimbolos.tiposDeclarados.get(tks.get(0).getKey());
+		if(TabelaSimbolos.tiposDeclaradosmain.containsKey(tks.get(0).getKey())){
+			String typeVariable = TabelaSimbolos.tiposDeclaradosmain.get(tks.get(0).getKey());
+			//String tipoRecebido = TabelaSimbolos.tiposDeclaradosmain.get(tks.get(0).getKey());
 			if(!typeVariable.equals("float")) {
 				throw new Exception("[LINHA]:"+tks.get(0).getLinha()+" [ERRO SEMANTICO] ::: O tipo da variavel '"+tks.get(0).getKey()+ "' esta sendo associada incorretamente");
 
@@ -472,7 +494,7 @@ public class AnaliseSintatica {
 
 		tokens.push("if");
 		verificaToken();
-
+		
 		D();
 
 	}
@@ -504,9 +526,22 @@ public class AnaliseSintatica {
 		verificaToken();
 		tokens.push("{");	
 		verificaToken();
+		//TabelaSimbolos.tiposDeclaradosBloco.put(BLOCO + TabelaSimbolos.tiposDeclaradosBloco.size(), null);
+		String nomeBloco = BLOCO + TabelaSimbolos.bloco.size();
+		
+		Bloco b = new Bloco();
+		b.setId(nomeBloco);
+		blocosDeclarados.add(b);
+		
+		TabelaSimbolos.bloco.put(b.getId(), new HashMap<String, String>());
+		
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		E();
-		tokens.push("}");	
+		System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+		tokens.push("}");
 		verificaToken();
+		
+		blocosDeclarados.get(blocosDeclarados.size()-1).setClosed(true);
 	}
 
 	private void G() throws Exception {
