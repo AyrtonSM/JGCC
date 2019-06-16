@@ -11,6 +11,8 @@ char nome5T = ' a ' ;
 char manda = nome5T ;
 int manel = 14 ;
 
+if ( manel == 15 ) { }
+
 // printf ( " emanoel " ) ;
  
 if ( b == 2 && nome == " manel " || carro ) {

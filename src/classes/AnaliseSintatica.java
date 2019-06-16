@@ -95,10 +95,30 @@ public class AnaliseSintatica {
 			if (!checkBlock()) {
 				throw new Exception("Está faltando fechar as chaves do bloco da linha " + bloco.get(0).getLinha());
 			}else {
-				//System.out.println("deveria apagar : "+ tokens.peek());
-
+				//System.out.println("=============================================> deveria apagar : ");
+				
+				System.out.println("**** 1 ****");
+				for (Token k : tks) {
+					System.out.print(k.getKey());
+					System.out.print(" | ");
+				}
+				
+				
 				tokens.pop();
 				tks.remove(0);
+				
+				System.out.println("**** 2 ****\n");
+				for (Token k : tks) {
+					System.out.print(k.getKey());
+					System.out.print(" | ");
+				}
+				System.out.println("**** 3 ****\n");
+				for (String t : tokens) {
+					System.out.print(t + " | ");
+				}
+				
+				System.out.println("-------------------------------------------------------------");
+				
 			}
 		}
 
@@ -152,7 +172,9 @@ public class AnaliseSintatica {
 		if (!tks.isEmpty()) {
 
 			if(Delimitadores.delimitadores.containsKey(tks.get(0).getKey())) {
-				tks.remove(0);
+				if(!tks.get(0).getKey().equals("}")) {
+					tks.remove(0);
+				}
 			}else {
 
 
@@ -302,11 +324,7 @@ public class AnaliseSintatica {
 
 		}else {
 			
-			
 			System.out.println("---------> "+tks.get(0).getKey());
-			
-			
-			
 			
 			if(TabelaSimbolos.tiposDeclaradosmain.containsKey(tks.get(0).getKey())){
 
@@ -526,6 +544,9 @@ public class AnaliseSintatica {
 		verificaToken();
 		tokens.push("{");	
 		verificaToken();
+		
+		
+		
 		//TabelaSimbolos.tiposDeclaradosBloco.put(BLOCO + TabelaSimbolos.tiposDeclaradosBloco.size(), null);
 		String nomeBloco = BLOCO + TabelaSimbolos.bloco.size();
 		
@@ -536,9 +557,30 @@ public class AnaliseSintatica {
 		TabelaSimbolos.bloco.put(b.getId(), new HashMap<String, String>());
 		
 		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		
+		for (Token k : tks) {
+			System.out.print(k.getKey());
+			System.out.print(" | ");
+		}
+		System.out.println("**** 3 ****\n");
+		for (String t : tokens) {
+			System.out.print(t + " | ");
+		}
+		
 		E();
+		
 		System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 		tokens.push("}");
+		
+//		for (Token k : tks) {
+//			System.out.print(k.getKey());
+//			System.out.print(" | ");
+//		}
+//		System.out.println("**** 3 ****\n");
+//		for (String t : tokens) {
+//			System.out.print(t + " | ");
+//		}
+		
 		verificaToken();
 		
 		blocosDeclarados.get(blocosDeclarados.size()-1).setClosed(true);
