@@ -84,6 +84,11 @@ public class Main {
         	System.out.println(a + "--> " + TabelaSimbolos.tiposDeclaradosmain.get(a));
         }
         
+        for (String a : TabelaSimbolos.bloco.keySet()) {
+        	System.out.println(a + "--> " + TabelaSimbolos.bloco.get(a).keySet());
+        }
+        
+        
         
 	}
 }

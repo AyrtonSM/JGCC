@@ -11,8 +11,6 @@ char nome5T = ' a ' ;
 char manda = nome5T ;
 int manel = 14 ;
 
-if ( manel == 15 ) { }
-
 // printf ( " emanoel " ) ;
  
 if ( b == 2 && nome == " manel " || carro ) {
@@ -21,10 +19,7 @@ if ( b == 2 && nome == " manel " || carro ) {
   int casa = 12 ;
   int manel = 20 ; 
 }
-  int manel ;
- if ( c ) { 
-  int m = 8 ; 
- }
+ int casa1 = 40 ;
 }
 
 char nome = ' a ' ; 
