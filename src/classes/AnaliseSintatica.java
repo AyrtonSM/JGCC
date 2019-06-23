@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
+import utils.AritmeticosUtils;
 import utils.Delimitadores;
 import utils.OperadoresLogicos;
 import utils.OperadoresRelacionaisUtils;
@@ -370,8 +371,11 @@ public class AnaliseSintatica {
 			verificaToken();
 					
 		}
-
-
+		
+		if(AritmeticosUtils.aritmeticosMapping.containsKey(tks.get(0).getKey())) {
+			opa("int");
+		}
+		
 		tokens.push(";");
 		verificaToken();
 
@@ -451,11 +455,36 @@ public class AnaliseSintatica {
 			
 			tokens.push(tks.get(0).getKey());
 			verificaToken();
-
+			
+			if (AritmeticosUtils.aritmeticosMapping.containsKey(tks.get(0).getKey())) {
+				opa("float");
+			}
+			
 			tokens.push(";");
 			verificaToken();
 
 		}
+		
+	}
+	private void opa(String type) throws Exception {
+		tokens.push(tks.get(0).getKey());
+		verificaToken();
+		
+		if(Character.isAlphabetic(tks.get(0).getKey().charAt(0)))
+			
+			lookfor(type);
+		
+		else{
+			
+			tokens.push(tks.get(0).getKey());
+			verificaToken();
+			
+			if (AritmeticosUtils.aritmeticosMapping.containsKey(tks.get(0).getKey())) {
+				opa(type);
+			}
+			
+		}
+		
 		
 	}
 
