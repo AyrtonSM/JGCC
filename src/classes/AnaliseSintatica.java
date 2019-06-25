@@ -3,10 +3,12 @@ package classes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
 import utils.AritmeticosUtils;
+import utils.CodigoEnderecoUtils;
 import utils.Delimitadores;
 import utils.OperadoresLogicos;
 import utils.OperadoresRelacionaisUtils;
@@ -25,18 +27,12 @@ public class AnaliseSintatica {
 	public String ultimoBlocoVisto = "";
 	private boolean blocksChecked = false;
 	private ArrayList<Bloco> blocosDeclarados = new ArrayList<Bloco>();
-
+	private String lastVariableRead;
+	
 	public AnaliseSintatica(ArrayList<Token> tks) throws Exception {
 		this.tks = tks;
 		B();
 		blocosDeclarados.get(0).setClosed(true);
-		MathTree m = new MathTree();
-		m.insert("/");
-		m.insert("+");
-		m.insert("a");
-		m.insert("b");
-		m.insert("c");
-		//m.printall(m.getRoot());
 		
 	}
 
@@ -347,12 +343,25 @@ public class AnaliseSintatica {
 		
 		
 		verifyAllBlocks("int");
-
+		
+		CodigoEndereco ce = new CodigoEndereco();
+		ce.setSimb(tks.get(0).getKey());
+		lastVariableRead = tks.get(0).getKey();
+		
 		tokens.push(tks.get(0).getKey());
 		verificaToken();
 
 		tokens.push("=");
+		ce.setSinal("=");
 		verificaToken();
+		
+		LinkedList<CodigoEndereco> codList = new LinkedList<CodigoEndereco>();
+		codList.add(ce);
+		
+		// ADICIONANDO NA TABELA DE CODIGOS ENDEREÇO
+		CodigoEnderecoUtils.enderecos.put("=",codList);
+		
+		CodigoEndereco ce1 = new CodigoEndereco();
 		if(tks.get(0).getKey().equals("\"")) {
 
 			throw new Exception("[LINHA]: "+tks.get(0).getLinha()+" [ERRO SEMANTICO] ::: O tipo do dado informado nao eh compativel. \n ");
@@ -373,14 +382,15 @@ public class AnaliseSintatica {
 
 			}
 
-		
+			
+			ce1.setOp1(tks.get(0).getKey());
 			tokens.push(tks.get(0).getKey());
 			verificaToken();
 					
 		}
 		
 		if(AritmeticosUtils.aritmeticosMapping.containsKey(tks.get(0).getKey())) {
-			opa("int");
+			opa("int",ce1);
 		}
 		
 		tokens.push(";");
@@ -460,11 +470,13 @@ public class AnaliseSintatica {
 		
 		else{
 			
+			CodigoEndereco ce = new CodigoEndereco();
 			tokens.push(tks.get(0).getKey());
+			ce.setOp1(tks.get(0).getKey());
 			verificaToken();
 			
 			if (AritmeticosUtils.aritmeticosMapping.containsKey(tks.get(0).getKey())) {
-				opa("float");
+				opa("float",ce);
 			}
 			
 			tokens.push(";");
@@ -473,8 +485,10 @@ public class AnaliseSintatica {
 		}
 		
 	}
-	private void opa(String type) throws Exception {
+	private void opa(String type, CodigoEndereco ce) throws Exception {
+		
 		tokens.push(tks.get(0).getKey());
+		ce.setSinal(tks.get(0).getKey());
 		verificaToken();
 		
 		if(Character.isAlphabetic(tks.get(0).getKey().charAt(0)))
@@ -484,10 +498,27 @@ public class AnaliseSintatica {
 		else{
 			
 			tokens.push(tks.get(0).getKey());
+			ce.setOp2(tks.get(0).getKey());
 			verificaToken();
 			
+			ce.setSimb("T"+getRandomIntegerBetweenRange(0, 1000));
+			
+			if(!CodigoEnderecoUtils.enderecos.containsKey(ce.getSinal())) {
+				LinkedList<CodigoEndereco> l = new LinkedList<CodigoEndereco>();
+				l.add(ce);
+				
+				CodigoEnderecoUtils.enderecos.put(ce.getSinal(),l);
+				
+			}else {
+				LinkedList<CodigoEndereco> tmp = CodigoEnderecoUtils.enderecos.get(ce.getSinal());
+				tmp.addLast(ce);
+				
+			}
+			
 			if (AritmeticosUtils.aritmeticosMapping.containsKey(tks.get(0).getKey())) {
-				opa(type);
+				CodigoEndereco ce1 = new CodigoEndereco();
+				ce1.setOp1(ce.getSimb());
+				opa(type,ce1);
 			}
 			
 		}
@@ -779,5 +810,17 @@ public class AnaliseSintatica {
 		}
 	
 	}
+	
+/**
+ * Método para gerar numeros aleatorios entre min e max.
+ * Funcao pêga da internet.
+ * @param min
+ * @param max
+ * @return
+ */
+public static double getRandomIntegerBetweenRange(double min, double max){
+    double x = (int)(Math.random()*((max-min)+1))+min;
+    return x;
+}
 
 }

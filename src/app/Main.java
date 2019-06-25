@@ -5,11 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import classes.AnaliseLexica;
 import classes.AnaliseSintatica;
+import classes.CodigoEndereco;
 import classes.Token;
 import utils.AritmeticosUtils;
+import utils.CodigoEnderecoUtils;
 import utils.Delimitadores;
 import utils.OperadoresLogicos;
 import utils.OperadoresRelacionaisUtils;
@@ -88,6 +91,27 @@ public class Main {
         	System.out.println(a + "--> " + TabelaSimbolos.bloco.get(a).keySet());
         }
         
+        
+        System.out.println("========================================================================");
+        System.out.println("=========================== Codigos de endereço ========================");
+        System.out.println("========================================================================");
+        
+        for (String a : CodigoEnderecoUtils.enderecos.keySet()) {
+        	
+        	Iterator<CodigoEndereco> iter =  CodigoEnderecoUtils.enderecos.get(a).iterator();
+        	while(iter.hasNext()) {
+        		CodigoEndereco ce = iter.next();
+        	
+        		System.out.println(ce.getSinal() + " | " + ce.getOp1() + " | " + ce.getOp2() + " | " + ce.getSimb());
+        		
+        	}
+        	
+        	
+        	
+        }
+        
+
+       
         
         
 	}
