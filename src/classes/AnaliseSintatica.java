@@ -30,6 +30,13 @@ public class AnaliseSintatica {
 		this.tks = tks;
 		B();
 		blocosDeclarados.get(0).setClosed(true);
+		MathTree m = new MathTree();
+		m.insert("/");
+		m.insert("+");
+		m.insert("a");
+		m.insert("b");
+		m.insert("c");
+		//m.printall(m.getRoot());
 		
 	}
 
