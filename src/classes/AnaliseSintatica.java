@@ -28,6 +28,8 @@ public class AnaliseSintatica {
 	private boolean blocksChecked = false;
 	private ArrayList<Bloco> blocosDeclarados = new ArrayList<Bloco>();
 	private String lastVariableRead;
+	private HashMap<String, String> seen = new HashMap<String, String>();
+	
 	
 	public AnaliseSintatica(ArrayList<Token> tks) throws Exception {
 		this.tks = tks;
@@ -94,36 +96,19 @@ public class AnaliseSintatica {
 
 	private void verificaToken() throws Exception {
 
-		System.out.println("Topo da Pilha : " + tokens.peek() + " | Na cabeça da lista tenho : " +  tks.get(0).getKey());
+		//System.out.println("Topo da Pilha : " + tokens.peek() + " | Na cabeça da lista tenho : " +  tks.get(0).getKey());
 
 		if (tks.get(0).getKey().equals("{")) {
 
 			if (!checkBlock()) {
 				throw new Exception("Está faltando fechar as chaves do bloco da linha " + bloco.get(0).getLinha());
 			}else {
-				//System.out.println("=============================================> deveria apagar : ");
-				
-				System.out.println("**** 1 ****");
-				for (Token k : tks) {
-					System.out.print(k.getKey());
-					System.out.print(" | ");
-				}
-				
+			
 				
 				tokens.pop();
 				tks.remove(0);
 				
-				System.out.println("**** 2 ****\n");
-				for (Token k : tks) {
-					System.out.print(k.getKey());
-					System.out.print(" | ");
-				}
-				System.out.println("**** 3 ****\n");
-				for (String t : tokens) {
-					System.out.print(t + " | ");
-				}
-				
-				System.out.println("-------------------------------------------------------------");
+			
 				
 			}
 		}
@@ -346,6 +331,7 @@ public class AnaliseSintatica {
 		
 		CodigoEndereco ce = new CodigoEndereco();
 		ce.setSimb(tks.get(0).getKey());
+		
 		lastVariableRead = tks.get(0).getKey();
 		
 		tokens.push(tks.get(0).getKey());
@@ -355,11 +341,19 @@ public class AnaliseSintatica {
 		ce.setSinal("=");
 		verificaToken();
 		
-		LinkedList<CodigoEndereco> codList = new LinkedList<CodigoEndereco>();
-		codList.add(ce);
+		
 		
 		// ADICIONANDO NA TABELA DE CODIGOS ENDEREÇO
-		CodigoEnderecoUtils.enderecos.put("=",codList);
+		
+		if(CodigoEnderecoUtils.enderecos.containsKey("=")) {
+			CodigoEnderecoUtils.enderecos.get("=").addLast(ce);
+		}else {
+			LinkedList<CodigoEndereco> codList = new LinkedList<CodigoEndereco>();
+			codList.add(ce);
+			CodigoEnderecoUtils.enderecos.put("=",codList);	
+		}
+		
+		
 		
 		CodigoEndereco ce1 = new CodigoEndereco();
 		if(tks.get(0).getKey().equals("\"")) {
@@ -501,17 +495,53 @@ public class AnaliseSintatica {
 			ce.setOp2(tks.get(0).getKey());
 			verificaToken();
 			
+			
 			ce.setSimb("T"+getRandomIntegerBetweenRange(0, 1000));
+			
+			LinkedList<CodigoEndereco> iguais = CodigoEnderecoUtils.enderecos.get("=");
+			for(CodigoEndereco m : iguais) {
+				System.err.println(m.getSimb() + " | " + lastVariableRead);
+				if(m.getSimb().equals(lastVariableRead)) {
+					
+					m.setOp1(ce.getSimb());
+				}else {
+					
+				}
+			}
 			
 			if(!CodigoEnderecoUtils.enderecos.containsKey(ce.getSinal())) {
 				LinkedList<CodigoEndereco> l = new LinkedList<CodigoEndereco>();
+				
 				l.add(ce);
 				
 				CodigoEnderecoUtils.enderecos.put(ce.getSinal(),l);
 				
 			}else {
 				LinkedList<CodigoEndereco> tmp = CodigoEnderecoUtils.enderecos.get(ce.getSinal());
-				tmp.addLast(ce);
+		
+		
+				for(CodigoEndereco c : tmp) {
+					
+					System.out.println(c.getSinal() + " | " + ce.getSinal());
+					System.out.println(c.getOp1() + " | " + ce.getOp1());
+					System.out.println(c.getOp2() + " | " + ce.getOp2());
+					
+					if (!(c.getSinal().equals(ce.getSinal()) &&
+							c.getOp1().equals(ce.getOp1()) &&
+								c.getOp2().equals(ce.getOp2()))) {
+						
+						tmp.addLast(ce);
+						break;
+					
+					}else {
+						
+						
+						ce.setSimb(c.getSimb());
+						System.out.println("----------------------------------------------------->>>>>>" );
+					}
+				}
+				
+				
 				
 			}
 			

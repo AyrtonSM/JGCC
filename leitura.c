@@ -6,10 +6,13 @@ int main ( ) {
 
 /* hello */
 char ayrton = ' x ' ;
-float sss_ama5nha = 124 + 300 / 300 ;
+int sss_ama5nha = 124 + 300 ;
 char nome5T = ' a ' ;
 char manda = nome5T ;
-int manel = 14 + 20 * 3 ;
+int manel = 124 + 300 - 2 ;
+int v = 9 - 9 ;
+int k = 200 + 20 ;
+
 
 // printf ( " emanoel " ) ;
  
@@ -22,7 +25,7 @@ if ( b == 2 && nome == " manel " || carro ) {
  int casa1 = 40 ;
 }
 
-char nome = ' a ' ; 
+int nome = 20 ; 
 // dfdfhgfj
 
 /* for ( int i = 0 ; i <= count ; ++ i ) {
