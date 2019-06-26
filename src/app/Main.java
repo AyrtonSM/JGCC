@@ -110,6 +110,7 @@ public class Main {
         	
         }
         
+        System.out.println("ANÁLISE SEMÂNTICA COMPLETADA COM SUCESSO.");
 
        
         

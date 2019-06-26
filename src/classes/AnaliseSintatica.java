@@ -96,7 +96,7 @@ public class AnaliseSintatica {
 
 	private void verificaToken() throws Exception {
 
-		//System.out.println("Topo da Pilha : " + tokens.peek() + " | Na cabeça da lista tenho : " +  tks.get(0).getKey());
+		System.out.println("Topo da Pilha : " + tokens.peek() + " | Na cabeça da lista tenho : " +  tks.get(0).getKey());
 
 		if (tks.get(0).getKey().equals("{")) {
 
@@ -496,11 +496,11 @@ public class AnaliseSintatica {
 			verificaToken();
 			
 			
-			ce.setSimb("T"+getRandomIntegerBetweenRange(0, 1000));
+			ce.setSimb("T"+getRandomIntegerBetweenRange(0, 10));
 			
 			LinkedList<CodigoEndereco> iguais = CodigoEnderecoUtils.enderecos.get("=");
 			for(CodigoEndereco m : iguais) {
-				System.err.println(m.getSimb() + " | " + lastVariableRead);
+				//System.err.println(m.getSimb() + " | " + lastVariableRead);
 				if(m.getSimb().equals(lastVariableRead)) {
 					
 					m.setOp1(ce.getSimb());
@@ -521,10 +521,7 @@ public class AnaliseSintatica {
 		
 		
 				for(CodigoEndereco c : tmp) {
-					
-					System.out.println(c.getSinal() + " | " + ce.getSinal());
-					System.out.println(c.getOp1() + " | " + ce.getOp1());
-					System.out.println(c.getOp2() + " | " + ce.getOp2());
+				
 					
 					if (!(c.getSinal().equals(ce.getSinal()) &&
 							c.getOp1().equals(ce.getOp1()) &&
@@ -848,9 +845,9 @@ public class AnaliseSintatica {
  * @param max
  * @return
  */
-public static double getRandomIntegerBetweenRange(double min, double max){
+public static int getRandomIntegerBetweenRange(double min, double max){
     double x = (int)(Math.random()*((max-min)+1))+min;
-    return x;
+    return (int)x;
 }
 
 }
